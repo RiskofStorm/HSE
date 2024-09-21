@@ -1,2 +1,2 @@
-# HSE-
-HSE Master's degree
+# HSE
+HSE Data Engineer Master's degree
