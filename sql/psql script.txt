@@ -1,0 +1,3 @@
+psql -U postgres -p 6432
+
+\c demo
