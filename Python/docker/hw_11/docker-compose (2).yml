@@ -1,0 +1,25 @@
+version: '2'
+services:
+  namenode:
+    image: sequenceiq/hadoop-docker:2.7.1
+    ports:
+      - "50070:50070"
+      - "8020:8020"
+    volumes:
+      - hadoop_data:/hadoop/dfs
+    environment:
+      - HDFS_NAMENODE_USER=root
+
+  datanode:
+    image: sequenceiq/hadoop-docker:2.7.1
+    ports:
+      - "50075:50075"
+    volumes:
+      - hadoop_data:/hadoop/dfs/data
+    environment:
+      - HDFS_DATANODE_USER=root
+      - HDFS_NAMENODE_SERVICE_HOST=namenode
+      - HDFS_NAMENODE_SERVICE_PORT=8020
+
+volumes:
+  hadoop_data:
