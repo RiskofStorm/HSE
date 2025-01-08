@@ -21,7 +21,7 @@ services:
       MYSQL_DATABASE: mydatabase
       MYSQL_USER: myuser
     ports:
-      - "3306:3306"
+      - "3306:3306" #"8006:3306"
     volumes:
       - mysql_data_py:/var/lib/mysql
     #command: --skip-grant-tables & mysql_upgrade -uroot -pmypassword

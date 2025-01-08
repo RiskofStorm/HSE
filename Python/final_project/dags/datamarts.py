@@ -39,7 +39,7 @@ def create_datamart(mysql_script):
     #connect to mysql
     try:
         conn = mysql.connector.connect(
-            host='localhost:3306',
+            host='localhost:8006',
             user='myuser',
             password='mypassword',
             database='mydatabase'
