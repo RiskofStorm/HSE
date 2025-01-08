@@ -8,8 +8,12 @@ docker compose up airflow-init postgres mysql airflow-webserver airflow-schedule
 
 ## 2. Выполнить скрипты sql из папки dwh для создания таблиц
 Файлы находятся в папке dwh **mysql_db.sql**, **psql_db.sql**.
-  
-## 3. Описание аналитических витрин
+
+## 3. Установить в нутри python энвайромента 
+```bash
+pip3 install -r requirements.txt
+```
+## 4. Описание аналитических витрин
 ### Витрина Активности пользователей user_activity
 #### Поля
    - user_id - уникальный идентификатор пользователей
