@@ -1,10 +1,11 @@
+CREATE DATABASE public;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Products;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS OrderDetails;
 DROP TABLE IF EXISTS ProductCategories;
 
-CREATE TABLE IF NOT EXISTS Users (
+CREATE TABLE IF NOT EXISTS public.Users (
     user_id BIGINT UNSIGNED PRIMARY KEY
     , first_name VARCHAR(50)
     , last_name VARCHAR(50)
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Users (
     , registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     , loyalty_status VARCHAR(10) CHECK (loyalty_status IN ('Gold', 'Silver', 'Bronze', 'None'))
 );
-CREATE TABLE  IF NOT EXISTS Products (
+CREATE TABLE  IF NOT EXISTS public.Products (
     product_id BIGINT UNSIGNED PRIMARY KEY
     , name VARCHAR(255)
     , description TEXT
@@ -23,7 +24,7 @@ CREATE TABLE  IF NOT EXISTS Products (
     , creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS Orders (
+CREATE TABLE IF NOT EXISTS public.Orders (
     order_id BIGINT UNSIGNED PRIMARY KEY
     , user_id BIGINT UNSIGNED
     , order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Orders (
     , FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE IF NOT EXISTS OrderDetails (
+CREATE TABLE IF NOT EXISTS public.OrderDetails (
     order_detail_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY
     , order_id BIGINT UNSIGNED
     , product_id BIGINT UNSIGNED

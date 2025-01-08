@@ -1,14 +1,32 @@
 import datetime
 import random
+import logging
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from sqlalchemy import create_engine
 
+
 import pandas as pd
 import faker
 from faker.providers import lorem
 
+default_args = {
+    'start_date': datetime(2025, 1, 1),
+    'retries': 0,
+    'email_on_retry': False,
+    'depends_on_past': False,
+    'email_on_failure': False
+}
+
+dag = DAG(
+    dag_id='postgres_data_insertion_with_fake',
+    default_args=default_args,
+    max_active_runs=1,
+    schedule_interval=None,
+    catchup=False,
+    tags=['DE', 'INIT']
+)
 
 def postgres_fakedata_insertion(engine):
     def create_fake_users(num=1):
@@ -69,7 +87,6 @@ def postgres_fakedata_insertion(engine):
 
         return [get_od(idx) for idx in range(num)]
 
-    #TODO заменить
 
     fake = faker.Faker('ru_RU')
     fake.add_provider(lorem)
@@ -84,14 +101,22 @@ def postgres_fakedata_insertion(engine):
         'name': ['продукты питания', 'одежда', 'техника', 'бытовая химия'],
         'parent_category_id': [None, None, None, None]
     })
+    logging.info('Fake data generated')
+
     # load data to postgres
     fake_users.to_sql('users', engine, if_exists='append', index=False)
     fake_products.to_sql('products', engine, if_exists='append', index=False)
     fake_orders.to_sql('orders', engine, if_exists='append', index=False)
     fake_orderdetails.to_sql('orderdetails', engine, if_exists='append', index=False)
     fake_prodcat.to_sql('productcategories', engine, if_exists='append', index=False)
+    logging.info('data loaded to postgres')
 
-
-def create_tables_postgres(engine):
-
-def create_table_mysql(engine):
+generate_fake_data = PythonOperator(
+    dag=dag,
+    task_id='gen_fake_data',
+    python_callable=postgres_fakedata_insertion,
+    op_kwargs={
+        'engine': create_engine('postgresql://myuser:mypassword@localhost:5432/mydatabase')
+    }
+)
+generate_fake_data
