@@ -104,4 +104,37 @@ product_sold_by_month = PythonOperator(
     },
 )
 
-[user_activity_mart, product_sold_by_month]
+
+users_that_become_inactive_mt_14_days = PythonOperator(
+    dag=dag,
+    task_id='transfer_table_users',
+    task_group=tg_datamarts,
+    python_callable=create_datamart,
+    op_kwargs={
+
+        'mysql_script': """               
+                CREATE OR REPLACE MATERIALIZED VIEW users_that_become_inactive_mt_14_days AS 
+                         SELECT user_id
+                                  , loyalty_status
+                                  , last_purchase
+                                  , EXTRACT(DAY FROM days_wo_purchase)  days_wo_purchase
+                                  , total_spent
+                           FROM (
+                           SELECT 
+                                 u.user_id
+                               , u.loyalty_status
+                               , MAX(o.order_date) AS last_purchase
+                               , (CURRENT_TIMESTAMP - MAX(o.order_date)) AS days_wo_purchase
+                               , SUM(o.total_amount) AS total_spent
+                           FROM users u
+                             LEFT JOIN orders o ON u.user_id = o.user_id 
+                           WHERE order_date IS NOT NULL
+                           GROUP BY 1) AS t
+                           WHERE days_wo_purchase > INTERVAL '14 days'
+                           ORDER BY 4 DESC, 5 DESC; 
+                   """
+
+    },
+)
+
+[user_activity_mart, product_sold_by_month, users_that_become_inactive]

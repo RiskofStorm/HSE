@@ -2,12 +2,10 @@
 
 ## 1. Сборка и запуск образа 
 ```commandline
-docker compose up airflow-init -d
+docker compose up airflow-init postgres mysql airflow-webserver airflow-scheduler-d
 ```
 Т.к. kafka, spark выдают Deprication warnings на docker-compose, поэтому я использую урезаные либы
-```commandline
-docker compose up postgres mysql airflow-webserver airflow-scheduler  -d
-```
+
 ## 2. Выполнить скрипты sql из папки dwh для создания таблиц
 Файлы находятся в папке dwh **mysql_db.sql**, **psql_db.sql**.
   
@@ -27,3 +25,11 @@ docker compose up postgres mysql airflow-webserver airflow-scheduler  -d
    - product_id - идентификатор продукта
    - total_sold_quantity - количестов проданных единиц
    - total_revenue - выручка за количество проданных единиц
+
+### Витрина Отчета о пользователях, которые стали неактивны по прошествии 14 деней
+#### Поля
+   - user_id - уникальный идентификатор пользователей
+   - loyalty_status - идентификатор лояльности
+   - last_purchase - дата последней покупки
+   - days_wo_purchase - дней без покупки
+   - total_spent - сумма всех покупок пользователя
