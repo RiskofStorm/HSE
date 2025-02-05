@@ -111,7 +111,6 @@ stg2dds_task = PythonOperator(
     python_callable=stg2dds,
     op_kwargs={
         'db_path': './dags/stocks.db',
-        'raw_data_path': './dags/data/stg_stock_history.csv',
         'logger': logger,
     },
 
