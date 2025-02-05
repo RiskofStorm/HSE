@@ -19,17 +19,24 @@ def stg2dds_inc(db_path: str, date_start:str, date_end:str, logger) -> None:
         try:
             curr.execute(f'''
                 INSERT INTO dds_stocks_price(
-                              date 
-                            , open 
-                            , high 
-                            , low 
-                            , close 
-                            , volume 
-                            , ticker 
-                            , load_dt
+                          date 
+                        , open 
+                        , high 
+                        , low 
+                        , close 
+                        , volume 
+                        , ticker 
+                        , load_dt
                 )
-                SELECT *,
-                       CURRENT_TIMESTAMP AS load_dt
+                SELECT    date 
+                        , open 
+                        , high 
+                        , low 
+                        , close 
+                        , volume 
+                        , ticker 
+                        , load_dt
+                        , CURRENT_TIMESTAMP AS load_dt
                 FROM stage_stocks_price
                 WHERE date BETWEEN '{date_start}'::DATE AND '{date_end}'::DATE
                 ON CONFLICT(date, ticker)
