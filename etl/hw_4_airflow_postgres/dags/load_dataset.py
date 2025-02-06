@@ -37,35 +37,42 @@ def stg2dds(db_path:str, logger) -> None:
     logger.info('LOADING STG TO DDS')
     with sqlite3.connect(db_path) as conn:
         curr = conn.cursor()
-        try:
-            curr.execute('''
-                INSERT INTO dds_stocks_price(
-                              date 
-                            , open 
-                            , high 
-                            , low 
-                            , close 
-                            , volume 
-                            , ticker 
-                            , load_dt
-                )
-                SELECT *,
-                       CURRENT_TIMESTAMP AS load_dt
-                FROM stage_stocks_price
-                ON CONFLICT(date, ticker)
-                DO UPDATE SET
-                    open=excluded.open,
-                    high=excluded.high,
-                    low=excluded.low,
-                    close=excluded.close,
-                    volume=excluded.volume,
-                    ticker=excluded.ticker
-            ;
-            
-            ''')
-        except Exception as error:
-            logger.info(f'LOADING ERROR')
-            logger.info(error)
+        # try:
+        curr.execute('''
+            INSERT INTO dds_stocks_price(
+                          date 
+                        , open 
+                        , high 
+                        , low 
+                        , close 
+                        , volume 
+                        , ticker 
+                        , load_dttm
+            )
+            SELECT    date 
+                    , open 
+                    , high 
+                    , low 
+                    , close 
+                    , volume 
+                    , ticker 
+                    , load_dt
+                    , CURRENT_TIMESTAMP AS load_dttm
+            FROM stage_stocks_price
+            ON CONFLICT(date, ticker)
+            DO UPDATE SET
+                open=excluded.open,
+                high=excluded.high,
+                low=excluded.low,
+                close=excluded.close,
+                volume=excluded.volume,
+                ticker=excluded.ticker
+        ;
+        
+        ''')
+        # except Exception as error:
+        #     logger.info(f'LOADING ERROR')
+        #     logger.info(error)
     logger.info('LOADING FINISHED')
 
 

@@ -16,43 +16,42 @@ def stg2dds_inc(db_path: str, date_start:str, date_end:str, logger) -> None:
     logger.info(f'DATE_END {date_end}')
     with sqlite3.connect(db_path) as conn:
         curr = conn.cursor()
-        try:
-            curr.execute(f'''
-                INSERT INTO dds_stocks_price(
-                          date 
-                        , open 
-                        , high 
-                        , low 
-                        , close 
-                        , volume 
-                        , ticker 
-                        , load_dt
-                )
-                SELECT    date 
-                        , open 
-                        , high 
-                        , low 
-                        , close 
-                        , volume 
-                        , ticker 
-                        , load_dt
-                        , CURRENT_TIMESTAMP AS load_dt
-                FROM stage_stocks_price
-                WHERE date BETWEEN '{date_start}'::DATE AND '{date_end}'::DATE
-                ON CONFLICT(date, ticker)
-                DO UPDATE SET
-                    open=excluded.open,
-                    high=excluded.high,
-                    low=excluded.low,
-                    close=excluded.close,
-                    volume=excluded.volume,
-                    ticker=excluded.ticker
-                ;
+        # try:
+        curr.execute(f'''
+            INSERT INTO dds_stocks_price(
+                      date 
+                    , open 
+                    , high 
+                    , low 
+                    , close 
+                    , volume 
+                    , ticker 
+                    , load_dttm
+            )
+            SELECT    date 
+                    , open 
+                    , high 
+                    , low 
+                    , close 
+                    , volume 
+                    , ticker 
+                    , CURRENT_TIMESTAMP AS load_dttm
+            FROM stage_stocks_price
+            WHERE date BETWEEN DATE('{date_start}') AND DATE('{date_end}')
+            ON CONFLICT(date, ticker)
+            DO UPDATE SET
+                open=excluded.open,
+                high=excluded.high,
+                low=excluded.low,
+                close=excluded.close,
+                volume=excluded.volume,
+                ticker=excluded.ticker
+            ;
 
-            ''')
-        except Exception as error:
-            logger.info(f'LOADING ERROR')
-            logger.info(error)
+        ''')
+        # except Exception as error:
+        #     logger.info(f'LOADING ERROR')
+        #     logger.info(error)
     logger.info('LOADING FINISHED')
 
 
