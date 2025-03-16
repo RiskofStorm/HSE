@@ -1,4 +1,4 @@
-FROM apache/airflow:2.6.3
+FROM apache/airflow:2.10.4
 
 USER root
 
@@ -13,10 +13,5 @@ RUN apt-get update && \
 USER airflow
 
 COPY requirements.txt /tmp/requirements.txt
-
+RUN pip uninstall bson
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
-
-ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
-ENV AIRFLOW__CORE__EXECUTOR=LocalExecutor
-
-RUN airflow db init
