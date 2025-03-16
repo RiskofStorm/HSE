@@ -7,21 +7,21 @@ import pymongo
 @dataclass
 class DbConnections:
 
-    # @dataclass
-    # class MongoDB:
-    #     conn = pymongo.MongoClient(
-    #             host="localhost",
-    #             port=27017,
-    #             username="root",
-    #             password="example",
-    #         )
+    @dataclass
+    class MongoDB:
+        conn = pymongo.MongoClient(
+                host="localhost",
+                port=27017,
+                username="root",
+                password="example",
+            )
 
     @dataclass
     class PostgreSQL:
         conn = psycopg2.connect(
             dbname='postgres',
             user='postgres',
-            password='flames78!@',
+            password='postgres',
             host='localhost',
             port=6432
         )
