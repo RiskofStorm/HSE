@@ -20,3 +20,5 @@ CREATE TABLE IF NOT EXISTS  stg_mdb.product_price_history(
     load_dttm TIMESTAMP
 
 );
+
+CREATE SCHEMA cdm_mdb;

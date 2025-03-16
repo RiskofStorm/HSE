@@ -7,6 +7,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 
+from db_conn import DbConnections, AirflowVariables
 
 logger = logging.getLogger(__name__)
 

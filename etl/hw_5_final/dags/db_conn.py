@@ -7,22 +7,23 @@ import pymongo
 @dataclass
 class DbConnections:
 
-    @dataclass
-    class MongoDB:
-        conn = pymongo.MongoClient(
-                host="localhost",
-                port=27017,
-                username="root",
-                password="example",
-            )
+    # @dataclass
+    # class MongoDB:
+    #     conn = pymongo.MongoClient(
+    #             host="localhost",
+    #             port=27017,
+    #             username="root",
+    #             password="example",
+    #         )
 
     @dataclass
     class PostgreSQL:
         conn = psycopg2.connect(
-            dbname='airflow',
-            user='airflow',
-            password='airflow',
-            host='postgres'
+            dbname='postgres',
+            user='postgres',
+            password='flames78!@',
+            host='localhost',
+            port=6432
         )
 
 airvar_payload = Variable.get('project_settings', deserialize_json=True)
