@@ -1,9 +1,16 @@
 import random
+import logging
 from datetime import datetime, timedelta
 
-from hw_5_final.dags.db_conn import DbConnections, AirflowVariables
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.operators.empty import EmptyOperator
+from airflow.models.param import Param
+from dags.db_conn import DbConnections, AirflowVariables
 
-def load_to_mdb_datasets():
+logger = logging.getLogger(__name__)
+
+def load_to_mdb_datasets(logger):
     def gen_user_sessions():
         delta = random.randint(1,600)
         start_time = datetime.now() - timedelta(days=delta)
@@ -32,6 +39,7 @@ def load_to_mdb_datasets():
           "currency": ["USD","EUR"][random.randint(0,1)]
        }
 
+    logger.info('STARTED JSON GENERATION AND LOAD TO MONGODB')
     mdb_conn = DbConnections.MongoDB.conn
 
     user_session = mdb_conn['user_session']
@@ -43,3 +51,45 @@ def load_to_mdb_datasets():
     product_price_history.insert_many([
          gen_product_price_history() for _ in range(AirflowVariables.gen_data_number)
     ])
+    logger.info('DONE')
+
+default_args = {
+    'owner': 'Danil Abramov',
+    'depends_on_past': False,
+    'email': ['riskofstorm@gmail.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 0,
+    'retry_delay': timedelta(minutes=1),
+}
+
+dag = DAG(
+    dag_id="MongoDB_loading_with_fake_data",
+    start_date=datetime(2025, 2, 1),
+    schedule="@daily",
+    default_args=default_args,
+    tags=["etl", "hw5"],
+
+)
+
+start_task = EmptyOperator(
+    dag=dag,
+    task_id='START'
+)
+
+stg2dds_inc_task = PythonOperator(
+    dag=dag,
+    task_id='loading_data_into_MongoDB',
+    python_callable=load_to_mdb_datasets,
+    op_kwargs={
+        'logger': logger,
+    },
+
+)
+
+end_task = EmptyOperator(
+    dag=dag,
+    task_id='END'
+)
+
+start_task >>  stg2dds_inc_task >> end_task
