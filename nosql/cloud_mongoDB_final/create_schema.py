@@ -18,6 +18,8 @@ subject_schema = {
 subjects_coll = dbs.create_collection('subject', validator={'$jsonSchema': subject_schema}, )
 # create indexes
 subjects_coll.create_index([('name', 1)], unique=True)
+subjects_coll.create_index([('created_at', 1)])
+subjects_coll.create_index([('updated_at', 1)])
 
 # DDL GROUP
 group_schema = {
@@ -56,6 +58,8 @@ person_schema = {
 
 # create schema
 persons_coll = dbs.create_collection('person', validator={'$jsonSchema': person_schema})
+persons_coll.create_index([('created_at', 1)])
+persons_coll.create_index([('updated_at', 1)])
 persons_coll.create_index([('lastName', 1),  ('firstName', 1)])
 
 
@@ -93,7 +97,6 @@ student_schema = {
 # create schema
 students_coll = dbs.create_collection('student', validator= {'$jsonSchema': student_schema})
 # create indexes
-
 students_coll.create_index([('created_at', 1)])
 students_coll.create_index([('updated_at', 1)])
 students_coll.create_index([('student_id', 1), ('group_id', 1)], unique=True)
