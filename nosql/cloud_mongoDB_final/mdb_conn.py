@@ -6,7 +6,7 @@ import pymongo
 def conn():
     url = 'mongodb://{user}:{pw}@{hosts}/?replicaSet={rs}&authSource={auth_src}'.format(
         user=quote('winter'),
-        pw=quote('flames78!@'),
+        pw=quote('noplaceforpassword'),
         hosts=','.join([
             'rc1a-qlxxvs85cg6khj32.mdb.yandexcloud.net:27018'
         ]),
