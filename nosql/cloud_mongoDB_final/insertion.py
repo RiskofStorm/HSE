@@ -1,155 +1,200 @@
-from mdb_conn import conn
+from sympy.physics.units import microsecond
 
+from mdb_conn import conn
+import pendulum
+from bson import ObjectId
+from datetime import timedelta
 dbs = conn()
 
 
-if 0:
-    dbs.group.drop()
-    dbs.person.drop()
-    dbs.student.drop()
-    dbs.subject.drop()
-
-dbs.collection('subject').insertMany([{
-    'name': 'NoSQL',
-    'description': 'non-relational databases',
-
-},
-{
-    'name': 'ML',
-    'description': 'machine learning',
-
-}])
-
-dbs.collection('group').insertMany([{
+# dbs.subject.insert_many([{
+#     'name': 'NoSQL',
+#     'description': 'non-relational databases',
+#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#
+# },
+# {
+#     'name': 'ML',
+#     'description': 'machine learning',
+#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#
+# }])
+#
+# dbs.group.insert_many([
+    {
 
     'name': 'DataScientists',
-    'subjects': ["67dc5c69e0ca64e6f4c235bf", "67dc5c69e0ca64e6f4c235c0"]
+    'subjects': ["67dc8390413e3fd059023679", "67dc8390413e3fd05902367a"],
+    'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
 
 },
-    {'name': 'DataEngineers',
-     'subjects': ["67dc5c69e0ca64e6f4c235bf"]}
-])
-
-dbs.collection('person').insertMany([{
-    'firstName': 'Илья',
-    'lastName': 'Суцкевер',
-    'email': 'gridsearchcv_noskill@proton.me',
-    'phone': 'OpenAI living nightmare',
-    'inn': 3,
-
-},
-{
-    'firstName': 'Юрий',
-    'lastName': 'Кашинский',
-    'email': 'ods@ai.com',
-    'phone': 'yorko @ opendatascience',
-    'inn': 2,
-},{
-    'firstName': 'Дмитрий',
-    'lastName': 'Аношин',
-    'email': 'dmitriy@surfanalytics.com',
-    'phone': 'hates leetcode',
-    'inn': 1,
-
-}
-])
-
-dbs.collection('student').insertMany([{
-    'person_id': '67dc6171e0ca64e6f4c235d0',
+#     {
+#      'name': 'DataEngineers',
+#      'subjects': ["67dc8390413e3fd059023679"],
+#     'created_at': pendulum.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+# }
+# ])
+#
+# dbs.person.insert_many([{
+#     'firstName': 'Илья',
+#     'lastName': 'Суцкевер',
+#     'email': 'gridsearchcv_noskill@proton.me',
+#     'phone': 'OpenAI living nightmare',
+#     'inn': 3,
+#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+# },
+# {
+#     'firstName': 'Юрий',
+#     'lastName': 'Кашинский',
+#     'email': 'ods@ai.com',
+#     'phone': 'yorko @ opendatascience',
+#     'inn': 2,
+#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+# },{
+#     'firstName': 'Дмитрий',
+#     'lastName': 'Аношин',
+#     'email': 'dmitriy@surfanalytics.com',
+#     'phone': 'hates leetcode',
+#     'inn': 1,
+#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+#
+# }
+# ])
+#
+dbs.student.insert_many([{
+    'person_id': ObjectId('67dc83ce5c28c6c305b51dd0'),
     'name': 'Илья Суцкевер',
-    'group_id': '67dc6152e0ca64e6f4c235cb',
+    'group_id': ObjectId('67dc83b80c956ab14c78f19f'),
     'grades':  [
         {
             'grade':10,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'subject_id': ObjectId('67dc8390413e3fd05902367a')
         },
         {
             'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'subject_id': ObjectId('67dc8390413e3fd05902367a')
         },
         {
             'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'subject_id': ObjectId('67dc8390413e3fd05902367a')
         },
         {
             'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         },
         {
             'grade': 8,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         },
         {
             'grade': 9,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         }
-
     ],
-
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
 
 },
 {
-    'person_id': '67dc6171e0ca64e6f4c235d1',
+    'person_id': ObjectId('67dc83ce5c28c6c305b51dd1'),
     'name': 'Юрий Кашинский',
-    'group_id': '67dc6152e0ca64e6f4c235cb',
+    'group_id': ObjectId('67dc83b80c956ab14c78f19f'),
     'grades': [
         {
             'grade':8,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'subject_id': ObjectId('67dc8390413e3fd05902367a')
         },
         {
-            'grade': 7,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'grade': 9,
+            'subject_id': ObjectId('67dc8390413e3fd05902367a')
         },
         {
             'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'subject_id': ObjectId('67dc8390413e3fd05902367a')
+        },
+        {
+            'grade': 8,
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
+        },
+        {
+            'grade': 8,
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         },
         {
             'grade': 7,
-            'subject_id': '67dc6152e0ca64e6f4c235c9'
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         },
         {
-            'grade': 7,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
-        },
-        {
-            'grade': 7,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
-        },
-        {
-            'grade': 6,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
+            'grade': 10,
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         }
 
     ],
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
 
 },{
-    'person_id': '67dc6171e0ca64e6f4c235d2',
+    'person_id': ObjectId('67dc83ce5c28c6c305b51dd2'),
     'name': 'Дмитрий Аношин',
-    'group_id': '67dc6152e0ca64e6f4c235cc',
+    'group_id': ObjectId('67dc83b80c956ab14c78f1a0'),
     'grades': [
             {
             'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
+        },
+        {
+            'grade': 8,
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
+        },
+        {
+            'grade': 9,
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         },
         {
             'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
-        },
-        {
-            'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
-        },
-        {
-            'grade': 10,
-            'subject_id': '67dc6152e0ca64e6f4c235ca'
+            'subject_id': ObjectId('67dc8390413e3fd059023679')
         }
 
     ],
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
 
 
-}
+},
+    {
+        'person_id': ObjectId('67dc83ce5c28c6c305b51dd2'),
+        'name': 'Дмитрий Аношин ML',
+        'group_id': ObjectId('67dc83b80c956ab14c78f19f'),
+        'grades': [
+            {
+                'grade': 10,
+                'subject_id': ObjectId('67dc8390413e3fd05902367a')
+            },
+            {
+                'grade': 8,
+                'subject_id': ObjectId('67dc8390413e3fd05902367a')
+            },
+            {
+                'grade': 9,
+                'subject_id': ObjectId('67dc8390413e3fd05902367a')
+            },
+            {
+                'grade': 10,
+                'subject_id': ObjectId('67dc8390413e3fd05902367a')
+            }
+
+        ],
+        'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+        'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+
+    }
 ])
 
 
