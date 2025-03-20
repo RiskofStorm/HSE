@@ -30,4 +30,4 @@ airvar_payload = Variable.get('project_settings', deserialize_json=True)
 
 @dataclass
 class AirflowVariables:
-    gen_data_number = airvar_payload['gen_data_number']
+    gen_data_number = airvar_payload.get('gen_data_number',1000)
