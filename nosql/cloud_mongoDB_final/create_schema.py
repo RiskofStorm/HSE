@@ -96,7 +96,7 @@ students_coll = dbs.create_collection('student', validator= {'$jsonSchema': stud
 students_coll.create_index([('group_id', 1)])
 students_coll.create_index([('created_at', 1)])
 students_coll.create_index([('updated_at', 1)])
-students_coll.create_index([('person_id', 1), ('group_id', 1)], unique=True)
+students_coll.create_index([('student_idt', 1), ('group_id', 1)], unique=True)
 
 
 
