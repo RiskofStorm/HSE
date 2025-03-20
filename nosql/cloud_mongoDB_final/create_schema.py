@@ -56,7 +56,7 @@ person_schema = {
 
 # create schema
 persons_coll = dbs.create_collection('person', validator={'$jsonSchema': person_schema})
-persons_coll.create_index([('lastName', 1),  ('firstName', 1)], unique=True)
+persons_coll.create_index([('lastName', 1),  ('firstName', 1)])
 
 
 # DDL STUDENTS
