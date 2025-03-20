@@ -93,7 +93,7 @@ student_schema = {
 # create schema
 students_coll = dbs.create_collection('student', validator= {'$jsonSchema': student_schema})
 # create indexes
-students_coll.create_index([('group_id', 1)])
+
 students_coll.create_index([('created_at', 1)])
 students_coll.create_index([('updated_at', 1)])
 students_coll.create_index([('student_id', 1), ('group_id', 1)], unique=True)
