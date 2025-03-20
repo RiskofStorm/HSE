@@ -40,6 +40,7 @@ def user_etl_mdb_2_pg(logger) -> None:
 
     prev_dt = datetime.now() - timedelta(days=2)
     usr_mdb = user_session.find({"load_dttm": {"$gte": prev_dt}})
+
     logger.info('STARTED LOADING DATA FROM MONGO TO PG')
     with pg_conn.cursor() as cursor:
         for payload in usr_mdb:
@@ -49,13 +50,13 @@ def user_etl_mdb_2_pg(logger) -> None:
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (session_id) 
                 DO UPDATE  SET
-                user_id=excluded.user_id,
-                start_time=excluded.start_time,
-                end_time=excluded.end_time,
-                pages_visited=excluded.pages_visited,
-                device=excluded.device,
-                actions=excluded.actions,
-                load_dttm=excluded.load_dttm
+                    user_id = excluded.user_id,
+                    start_time = excluded.start_time,
+                    end_time = excluded.end_time,
+                    pages_visited = excluded.pages_visited,
+                    device = excluded.device,
+                    actions = excluded.actions,
+                    load_dttm = excluded.load_dttm
                 
             """,
                 vars=(
@@ -97,10 +98,10 @@ def pph_etl_mdb_2_pg(logger) -> None:
                 VALUES (%s, %s, %s, %s, %s)
                 ON CONFLICT (product_id) 
                 DO UPDATE SET
-                price_changes=excluded.price_changes,
-                current_price=excluded.current_price,
-                currency=excluded.currency,
-                load_dttm=excluded.load_dttm
+                    price_changes = excluded.price_changes,
+                    current_price = excluded.current_price,
+                    currency = excluded.currency,
+                    load_dttm = excluded.load_dttm
             """,
                 vars=(
                     payload["product_id"],

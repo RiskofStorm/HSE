@@ -79,7 +79,6 @@ def datamart_update(logger) -> None:
 
 
 
-
 start_task = EmptyOperator(
     dag=dag,
     task_id='START'
