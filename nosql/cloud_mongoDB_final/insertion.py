@@ -7,67 +7,69 @@ from datetime import timedelta
 dbs = conn()
 
 
-# dbs.subject.insert_many([{
-#     'name': 'NoSQL',
-#     'description': 'non-relational databases',
-#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#
-# },
-# {
-#     'name': 'ML',
-#     'description': 'machine learning',
-#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#
-# }])
-#
-# dbs.group.insert_many([
-    {
-
-    'name': 'DataScientists',
-    'subjects': ["67dc8390413e3fd059023679", "67dc8390413e3fd05902367a"],
-    'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-    'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
+dbs.subject.insert_many([{
+    '_id': ObjectId('67dc8390413e3fd059023679'),
+    'name': 'NoSQL',
+    'description': 'non-relational databases',
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
 
 },
-#     {
-#      'name': 'DataEngineers',
-#      'subjects': ["67dc8390413e3fd059023679"],
-#     'created_at': pendulum.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-# }
-# ])
-#
-# dbs.person.insert_many([{
-#     'firstName': 'Илья',
-#     'lastName': 'Суцкевер',
-#     'email': 'gridsearchcv_noskill@proton.me',
-#     'phone': 'OpenAI living nightmare',
-#     'inn': 3,
-#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-# },
-# {
-#     'firstName': 'Юрий',
-#     'lastName': 'Кашинский',
-#     'email': 'ods@ai.com',
-#     'phone': 'yorko @ opendatascience',
-#     'inn': 2,
-#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-# },{
-#     'firstName': 'Дмитрий',
-#     'lastName': 'Аношин',
-#     'email': 'dmitriy@surfanalytics.com',
-#     'phone': 'hates leetcode',
-#     'inn': 1,
-#     'created_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#     'updated_at': pendulum.now().strftime('%Y-%m-dT%H:%M:%S.%f%z'),
-#
-# }
-# ])
-#
+{   '_id': ObjectId('67dc8390413e3fd05902367a'),
+    'name': 'ML',
+    'description': 'machine learning',
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+
+}])
+
+dbs.group.insert_many([{
+    '_id': ObjectId('67dc8390413e3fd05902367a'),
+    'name': 'DataScientists',
+    'subjects': ["67dc8390413e3fd059023679", "67dc8390413e3fd05902367a"],
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+
+},{
+     '_id': ObjectId('67dc8390413e3fd05902367a'),
+     'name': 'DataEngineers',
+     'subjects': ["67dc8390413e3fd059023679"],
+     'created_at': pendulum.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+     'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+}
+])
+
+dbs.person.insert_many([{
+    '_id': ObjectId('67dc83ce5c28c6c305b51dd0'),
+    'firstName': 'Илья',
+    'lastName': 'Суцкевер',
+    'email': 'gridsearchcv_noskill@proton.me',
+    'phone': 'OpenAI living nightmare',
+    'inn': 3,
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+},
+{   '_id': ObjectId('67dc83ce5c28c6c305b51dd1'),
+    'firstName': 'Юрий',
+    'lastName': 'Кашинский',
+    'email': 'ods@ai.com',
+    'phone': 'yorko @ opendatascience',
+    'inn': 2,
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+},{ 
+    '_id': ObjectId('67dc83ce5c28c6c305b51dd2'),
+    'firstName': 'Дмитрий',
+    'lastName': 'Аношин',
+    'email': 'dmitriy@surfanalytics.com',
+    'phone': 'hates leetcode',
+    'inn': 1,
+    'created_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+    'updated_at': pendulum.now().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+
+}
+])
+
 dbs.student.insert_many([{
     'person_id': ObjectId('67dc83ce5c28c6c305b51dd0'),
     'name': 'Илья Суцкевер',
