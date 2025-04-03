@@ -30,7 +30,7 @@ dag = DAG(
     dag_id=dag_name,
     default_args=default_args,
     max_active_runs=1,
-    description=f'DAG Мониторинга витрин РКК, подсистемы: 2689',
+    description=f'',
     schedule_interval=None,
     catchup=False,
     tags=['HSE', 'INITDB',],
@@ -62,15 +62,15 @@ def init_sqlite3(sqlite3_conn:str, logger)-> None:
                     
                 );
                 """)
-    logger.info(f"CREATED METADATA TABLE ON SQLITE3 {sqlite3_conn}")
+    logger.info(f"CREATED delta_log TABLE ON SQLITE3 {sqlite3_conn}")
 
 def init_mongodb(mongo_conn, logger)-> None:
     from db_libs.db_conn import conn
     from db_libs.mongo_validator import data_schema
     dbs = mongo_conn()
-    data_coll = dbs.create_collection('subject', validator={'$jsonSchema': data_schema}, )
+    data_coll = dbs.create_collection('api_data', validator={'$jsonSchema': data_schema}, )
 
-    logger.info("CREATE MONGO DB COLLECTION")
+    logger.info("CREATED MONGO DB COLLECTION")
 
 
 

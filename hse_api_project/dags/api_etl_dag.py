@@ -3,8 +3,8 @@
 import requests
 import sqlite3
 requests.get(uri)
-sqlite3.connect("/metadata/api_.db")
+sqlite3.connect("/metadata/delta_log.db.db")
 
 
 
-api -> mongo -> df = pd.json_normalize(d) -> postgres
+api -> mongo -> df = pd.json_normalize(json) -> postgres
