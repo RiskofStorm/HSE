@@ -1,7 +1,3 @@
-from db_conn import conn
-
-dbs = conn()
-
 data_schema = {
                'bsonType': 'object',
                'properties': {

@@ -8,18 +8,22 @@ import psycopg2
 def mongo_connection():
     url = 'mongodb://{user}:{pw}@{hosts}/?replicaSet={rs}&authSource={auth_src}'.format(
         user=quote('winter'),
-        pw=quote(''),
+        pw=quote('flames78'),
         hosts=','.join([
-            'rc1a-qlxxvs85cg6khj32.mdb.yandexcloud.net:27018'
+            'rc1b-2lc2qjz8zcf79bmk.mdb.yandexcloud.net:27018'
         ]),
         rs='rs01',
         auth_src='db1')
     dbs = pymongo.MongoClient(
         url,
         tls=True,
-        tlsCAFile='C:\\Users\\Daniel\\.mongodb\\root.crt')['db1']
+        tlsCAFile='/tmp/root.crt')['db1']
     return dbs
+
+r"""
+mkdir $HOME\.mongodb; curl.exe -o $HOME\.mongodb\root.crt https://storage.yandexcloud.net/cloud-certs/CA.pem
+"""
 
 
 def postgres_connection():
-    pass
+    return psycopg2.connect(database="postgres_db", user="postgres_user", password="postgres_password", host="localhost", port=5430)
