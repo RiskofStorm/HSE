@@ -8,7 +8,7 @@ import psycopg2
 def mongo_connection():
     url = 'mongodb://{user}:{pw}@{hosts}/?replicaSet={rs}&authSource={auth_src}'.format(
         user=quote('winter'),
-        pw=quote('flames78'),
+        pw=quote('*******'),
         hosts=','.join([
             'rc1b-2lc2qjz8zcf79bmk.mdb.yandexcloud.net:27018'
         ]),

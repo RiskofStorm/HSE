@@ -83,7 +83,7 @@ def load_api(**kwargs)-> None:
         uri =  f"https://randomuser.me/api/?results={page_id}"
         j_obj = json.loads(requests.get(uri).content)['results'][0]
         logger.info(f'{type(j_obj)} j_obj {j_obj}')
-        obj_id = dbs.api_data.insert_one(j_obj)
+        obj_id = dbs.api_data.insert_one(j_obj) #TODO DEBUG VALIDATION ERROR
         logger.info(f' OBJ_ID {str(obj_id)}')
         sq3_conn.execute(sql_script, [str(obj_id), datetime.now().strftime("%Y-%m-%dT%H:%M"), 'INSERTED'])
 
