@@ -1,0 +1,10 @@
+
+
+import requests
+import sqlite3
+requests.get(uri)
+sqlite3.connect("/metadata/api_.db")
+
+
+
+api -> mongo -> df = pd.json_normalize(d) -> postgres
