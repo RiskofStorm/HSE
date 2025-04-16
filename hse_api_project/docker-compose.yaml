@@ -85,6 +85,8 @@ x-airflow-common:
       condition: service_healthy
     postgres:
       condition: service_healthy
+  networks:
+    - default
 
 services:
   postgres:
@@ -289,12 +291,16 @@ services:
     image: postgres:latest
     container_name: etl_postgres_container
     environment:
-      POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: postgres_password
-      POSTGRES_DB: postgres_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
       PGDATA: /var/lib/postgresql/data/pgdata
+    expose:
+      - "5438"
     ports:
-      - "6430:6432"
+      - "5438:5438"
+    networks:
+      - default
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
     deploy:
@@ -306,15 +312,16 @@ services:
           cpus: '0.25'
           memory: 256M
     command: >
-      postgres -c max_connections=1000
-               -c shared_buffers=256MB
-               -c effective_cache_size=768MB
-               -c maintenance_work_mem=64MB
-               -c checkpoint_completion_target=0.7
-               -c wal_buffers=16MB
+      postgres -p 5438 \
+               -c max_connections=1000 \
+               -c shared_buffers=256MB \
+               -c effective_cache_size=768MB \
+               -c maintenance_work_mem=64MB \
+               -c checkpoint_completion_target=0.7 \
+               -c wal_buffers=16MB \
                -c default_statistics_target=100
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres_user -d postgres_db" ]
+      test: [ "CMD-SHELL", "pg_isready -h localhost -p 5438 -U postgres -d postgres"" ]
       interval: 30s
       timeout: 10s
       retries: 5

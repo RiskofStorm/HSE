@@ -32,7 +32,7 @@ dag = DAG(
     dag_id=dag_name,
     default_args=default_args,
     max_active_runs=1,
-    description=f'',
+    description=f'initializing task for db instances',
     schedule_interval=None,
     catchup=False,
     tags=['HSE', 'INITDB',],
@@ -59,7 +59,8 @@ def init_sqlite3(sqlite3_conn:str, logger)-> None:
     cur.execute('DROP TABLE IF EXISTS delta_log;')
     cur.execute(""" 
                     CREATE TABLE IF NOT EXISTS delta_log(
-                      id       INTEGER 
+                      id            INTEGER 
+                    , page_id       NUMERIC
                     , obj_id        TEXT     
                     , load_dttm     TIMESTAMP
                     , status        TEXT
@@ -76,6 +77,7 @@ def init_mongodb()-> None:
     # import os
     # logger.info(os.listdir('/tmp'))
     dbs = mongo_connection()
+    dbs.api_data.drop()
     # try:
     dbs.create_collection('api_data', validator={'$jsonSchema': data_schema}, )
     logger.info("CREATED MONGO DB COLLECTION api_data")
@@ -88,51 +90,46 @@ def init_postgres()-> None:
 
     with conn.cursor() as cur:
         cur.execute("""
+            DROP SCHEMA IF EXISTS stg CASCADE;
             CREATE SCHEMA IF NOT EXISTS stg;
             CREATE TABLE IF NOT EXISTS stg.data(
-                  id                                    PRIMARY KEY NOT NULL
-                , obj_id                                TEXT NOT NULL
-                , gender                                TEXT
-                , email                                 TEXT
-                , phone                                 TEXT
-                , cell                                  TEXT
-                , nat                                   TEXT
-                , name_title                            TEXT
-                , name_first                            TEXT
-                , location_street_number                INT4
-                , location_street_name                  TEXT
-                , location_city                         TEXT
-                , location_state                        TEXT
-                , location_country                      TEXT
-                , location_postcode                     INT4
-                , location_coordinates_latitude         TEXT
-                , location_coordinates_longitude        TEXT
-                , location_timezone_offset              TEXT
-                , location_timezone_description         TEXT
-                , login_uuid                            TEXT
-                , login_username                        TEXT
-                , login_password                        TEXT
-                , login_salt                            TEXT
-                , login_md5                             TEXT
-                , login_sha1                            TEXT
-                , login_sha256                          TEXT
-                , dob_date                              TEXT
-                , dob_age                               INT2
-                , registered_date                       TEXT
-                , registered_age                        INT2
-                , id_name                               TEXT
-                , id_value                              TEXT
-                , picture_large                         TEXT
-                , picture_medium                        TEXT
-                , picture_thumbnail                     TEXT
+                  id                                    BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL
+                , page_id                               NUMERIC(15,7)
+                , obj_id                                text NOT NULL UNIQUE
+                , gender                                text
+                , email                                 text
+                , phone                                 text
+                , cell                                  text
+                , nat                                   text
+                , name_title                            text
+                , name_first                            text
+                , location_street_number                text
+                , location_street_name                  text
+                , location_city                         text
+                , location_state                        text
+                , location_country                      text
+                , location_postcode                     text
+                , location_coordinates_latitude         text
+                , location_coordinates_longitude        text
+                , location_timezone_offset              text
+                , location_timezone_description         text
+                , login_uuid                            text
+                , login_username                        text
+                , login_password                        text
+                , login_salt                            text
+                , login_md5                             text
+                , login_sha1                            text
+                , login_sha256                          text
+                , dob_date                              text
+                , dob_age                               text
+                , registered_date                       text
+                , registered_age                        text
+                , id_name                               text
+                , id_value                              text
+                , picture_large                         text
+                , picture_medium                        text
+                , picture_thumbnail                     text
             );
-            
-            CREATE OR REPLACE VIEW stg.answer AS
-            SELECT location_country, gender, count(*)
-            FROM stg.data
-            GROUP BY location_country, gender
-            ORDER BY count(*), gender, location_country
-                ;
         """)
     conn.commit()
     conn.close()

@@ -1,0 +1,64 @@
+location_country,gender,population_cnt
+Denmark,female,1152
+Denmark,male,1095
+Denmark,total,2247
+Switzerland,female,1157
+Switzerland,male,1090
+Switzerland,total,2247
+Netherlands,female,1130
+Netherlands,male,1108
+Netherlands,total,2238
+United Kingdom,female,1108
+United Kingdom,male,1128
+United Kingdom,total,2236
+Norway,female,1120
+Norway,male,1108
+Norway,total,2228
+Turkey,female,1118
+Turkey,male,1092
+Turkey,total,2210
+France,female,1097
+France,male,1106
+France,total,2203
+Canada,female,1095
+Canada,male,1107
+Canada,total,2202
+Mexico,female,1087
+Mexico,male,1105
+Mexico,total,2192
+New Zealand,female,1045
+New Zealand,male,1147
+New Zealand,total,2192
+Spain,female,1105
+Spain,male,1085
+Spain,total,2190
+Brazil,female,1134
+Brazil,male,1052
+Brazil,total,2186
+Germany,female,1083
+Germany,male,1090
+Germany,total,2173
+Ukraine,female,1049
+Ukraine,male,1104
+Ukraine,total,2153
+Serbia,female,1052
+Serbia,male,1092
+Serbia,total,2144
+United States,female,1068
+United States,male,1070
+United States,total,2138
+Australia,female,1063
+Australia,male,1074
+Australia,total,2137
+Iran,female,1060
+Iran,male,1077
+Iran,total,2137
+India,female,1069
+India,male,1057
+India,total,2126
+Finland,female,995
+Finland,male,1087
+Finland,total,2082
+Ireland,female,1041
+Ireland,male,1036
+Ireland,total,2077

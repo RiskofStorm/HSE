@@ -8,7 +8,7 @@ import psycopg2
 def mongo_connection():
     url = 'mongodb://{user}:{pw}@{hosts}/?replicaSet={rs}&authSource={auth_src}'.format(
         user=quote('winter'),
-        pw=quote('*******'),
+        pw=quote('not-a-password'),
         hosts=','.join([
             'rc1b-2lc2qjz8zcf79bmk.mdb.yandexcloud.net:27018'
         ]),
@@ -24,6 +24,6 @@ r"""
 mkdir $HOME\.mongodb; curl.exe -o $HOME\.mongodb\root.crt https://storage.yandexcloud.net/cloud-certs/CA.pem
 """
 
-
+# 172.18.0.0/16  ## docker inspect сеть_id
 def postgres_connection():
-    return psycopg2.connect(database="postgres_db", user="postgres_user", password="postgres_password", host="localhost", port=5430)
+    return psycopg2.connect(database="postgres", user="postgres", password="postgres", host="etl_postgres", port=5432)
