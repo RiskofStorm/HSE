@@ -38,6 +38,7 @@ dag = DAG(
     schedule_interval='*/30 * * * *',
     catchup=False,
     tags=['HSE', 'API',],
+    provide_context=True,
 )
 
 start_dag = DummyOperator(
@@ -56,7 +57,7 @@ tg_api_load = TaskGroup(
 )
 
 def get_start_page(**kwargs)-> None:
-    sq3_conn =  sqlite3.connect( f'{cur_dir}/metadata/delta_log.db')
+    sq3_conn =  sqlite3.connect(f'{cur_dir}/metadata/delta_log.db')
     sq3_curr =  sq3_conn.cursor()
     last_page_id = sq3_curr.execute("""
                 SELECT ROUND(COALESCE(MAX(page_id), 1))
@@ -86,8 +87,8 @@ def load_api(**kwargs)-> None:
 
         for json_id, payload in enumerate(payloads):
             full_json_id = float(f"{page_id}.{json_id}")
+            payload['page_id'] = full_json_id
             try:
-                payload['page_id'] = full_json_id
                 obj_id = dbs.api_data.insert_one(payload)
                 sq3_cur.execute(sql_script, [full_json_id, str(obj_id.inserted_id), pendulum.now(tz='Europe/Moscow').strftime("%Y-%m-%dT%H:%M"), 'INSERTED'])
                 sq3_conn.commit()
@@ -106,6 +107,7 @@ def load_api(**kwargs)-> None:
 def load_to_postgres(**kwargs)-> None:
     from itertools import chain
     from bson import ObjectId
+
     sq3_conn = sqlite3.connect( f'{cur_dir}/metadata/delta_log.db')
     sq3_cur = sq3_conn.cursor()
     dbs = mongo_connection().api_data
@@ -169,7 +171,7 @@ def load_to_postgres(**kwargs)-> None:
     ]
     df = df[df_col_list]
     df['page_id'] = df['page_id'].astype(float)
-    load_to_pg = tuple(df.itertuples(index=False, name=None))
+
     with pg_conn.cursor() as cur:
         cur.executemany(
             """
@@ -214,7 +216,7 @@ def load_to_postgres(**kwargs)-> None:
             ON CONFLICT (obj_id) DO NOTHING
             ;
             """,
-            load_to_pg
+            tuple(df.itertuples(index=False, name=None))
         )
     pg_conn.commit()
     pg_conn.close()
@@ -253,9 +255,9 @@ def get_report(**kwargs) -> None:
             """
 
         )
-        answer = cur.fetchall()
+
     dfr = pd.DataFrame.from_records(
-        answer,
+        cur.fetchall(),
         columns=['location_country', 'gender', 'population_cnt']
     )
     dfr.to_csv(f'{cur_dir}/reports/gender_dist_by_country.csv', encoding='utf-8', index=False)
@@ -266,9 +268,8 @@ def get_report(**kwargs) -> None:
         FROM delta_log
         """
     )
-    metadata = sq3_cur.fetchall()
     dfm = pd.DataFrame.from_records(
-        metadata,
+        sq3_cur.fetchall(),
         columns=['id', 'page_id', 'obj_id', 'load_dttm', 'status']
     )
     dfm.to_csv(f'{cur_dir}/reports/metadata.csv', encoding='utf-8', index=False)
