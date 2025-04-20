@@ -38,7 +38,6 @@ dag = DAG(
     schedule_interval='*/30 * * * *',
     catchup=False,
     tags=['HSE', 'API',],
-    provide_context=True,
 )
 
 start_dag = DummyOperator(
