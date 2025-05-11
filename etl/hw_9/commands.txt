@@ -1,0 +1,19 @@
+df = spark.read.option("multiline", "true").json('s3a://hseetl/users.json', multiLine=True)
+
+df.printSchema()
+
+
+users_emails = df.select(F.explode("users").alias("users")).select("users.email")
+users_emails.show(30)
+
+users_emails.write.mode('overwrite').parquet("./useremails.parquet")
+
+
+
+
+
+
+
+
+
+
