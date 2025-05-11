@@ -1,0 +1,21 @@
+create table  transfer.data (
+    id bigint,
+    load_dttm timestamp,
+    hash text
+);
+
+INSERT INTO transfer.data
+SELECT i,
+    current_timestamp - interval '1 second' * i,
+    md5(random(1, 10000)::text)
+
+FROM generate_series(1,10000) i(i);
+
+
+yc managed-postgresql user update winter `
+       --grants=mdb_replication`
+       --cluster-id c9qkcscdrgfocf1jrtfp
+
+yc resource-manager folder add-access-binding default `
+--role editor `
+--subject serviceAccount:winter
