@@ -11,7 +11,7 @@ from airflow.providers.yandex.operators.yandexcloud_dataproc import (
 # Данные вашей инфраструктуры
 YC_DP_AZ = 'ru-central1-d'
 YC_DP_SSH_PUBLIC_KEY = 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM84ulvlxn2dYct9M5A2fKmzzqJUy2GYSCn7id0YRGZP daniabramov@edu.hse.ru'
-YC_DP_SUBNET_ID = 'enpvb8gfas07u7bkgekc'
+YC_DP_SUBNET_ID = 'fl82c0ntan605hoenkti'
 YC_DP_SA_ID = 'ajei9kj406lr9ug9eitj'
 YC_DP_METASTORE_URI = '10.130.0.13'
 YC_BUCKET = 'hseetl'
